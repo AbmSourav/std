@@ -1,0 +1,22 @@
+{
+  "name": "std",
+  "version": "0.0.1",
+  "description": "ToDo App",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AbmSourav/std.git"
+  },
+  "author": "Keramot UL Islam",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AbmSourav/std/issues"
+  },
+  "homepage": "https://github.com/AbmSourav/std#readme",
+  "dependencies": {
+    "electron": "^8.2.1"
+  }
+}
