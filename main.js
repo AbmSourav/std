@@ -1,32 +1,10 @@
-const {app, BrowserWindow} = require("electron");
-const path = require("path");
+const electron = require("electron");
+const {app} = electron;
 
-let win;
+const createWindow = require("./app/mainWindow");
 
-function createWindow() {
-    win = new BrowserWindow({
-        width: 700,
-        height: 500,
-        // icon: '',
-        webPreferences: {
-            preload: path.join(__dirname, 'preload.js')
-        }
-    })
-
-    // and load the index.html of the app.
-    win.loadFile('index.html')
-
-    // Open the DevTools.
-    win.webContents.openDevTools()
-
-    // reset win to null, when it is closed
-    win.on('closed', () => {
-        win = null;
-    })
-}
 
 app.on('ready', createWindow)
-
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
