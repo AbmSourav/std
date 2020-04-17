@@ -1,10 +1,9 @@
 const electron = require("electron");
-const {app} = electron;
+const {app, BrowserWindow} = electron;
+const {createWindow} = require("./app/tabs/mainWindow");
 
-const createWindow = require("./app/mainWindow");
 
-
-app.on('ready', createWindow)
+app.on('ready', createWindow);
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {

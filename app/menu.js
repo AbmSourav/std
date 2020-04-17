@@ -1,13 +1,14 @@
 const electron = require("electron");
 const {app} = electron;
-const createSubWindow = require("./subWindow");
+const createAboutWindow = require("./tabs/aboutWindow");
+const {createCatWindow} = require("./tabs/catWindow");  
 
 // menu list
-mainMenu = [
+const mainMenu = [
     {
         label: 'Options',
         submenu: [
-            {label: 'Add Category'},
+            { role: 'reload'},
             {
                 label: 'Quit',
                 accelerator: process.platform == 'darwin' ? 'Command+Q' : 'Ctrl+Q',
@@ -17,11 +18,16 @@ mainMenu = [
             },
         ]
     },
-    { label: 'Reload'},
-    { 
-        label: 'About',
+    {
+        label: 'Add Category',
         click() {
-            createSubWindow();
+            createCatWindow();
+        }
+    },
+    { 
+        label: 'App Detail',
+        click() {
+            createAboutWindow();
         }
     }
 ];
