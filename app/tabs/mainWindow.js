@@ -4,13 +4,14 @@ const path = require("path");
 const url = require("url");
 const mainMenu = require("../menu");
 const Store = require("electron-store");
+// const {DataStor} = require("../DataStore")
 
 
 let win;
 
 function createWindow() {
     win = new BrowserWindow({
-        width: 500,
+        width: 800,
         height: 500,
         title: 'STD',
         webPreferences: {
@@ -47,12 +48,13 @@ function createWindow() {
     })
 
    ipcMain.on('catItem:add', function(e, catItem) {
-        const catKey = catItem.split(' ').join('');
+        const key = catItem.split(' ').join('');
+        const catKey = key.toLowerCase()
         console.log(catItem + '|' + catKey);
 
-        win.webContents.send('catItem:add', catItem);
         const abmSourav = new Store({name: 'std'})
-        abmSourav.set(catKey, {catKey: catKey, catName: catItem})
+        abmSourav.set( catKey, {catKey: catKey, catName: catItem} )
+        win.webContents.send('catItem:add', catItem);
     })
 }
 

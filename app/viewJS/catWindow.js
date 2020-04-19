@@ -3,7 +3,7 @@ const {ipcRenderer} = electron
 
 
 const catForm = document.querySelector('#catForm')
-catInput = document.getElementById('catInput')
+catInput = document.querySelector('#catInput')
 
 if ( catInput ) {
     catForm.addEventListener('submit', submitCat, false)
@@ -11,6 +11,6 @@ if ( catInput ) {
     function submitCat(e) {
         e.preventDefault()
         const catItem = catInput.value
-        ipcRenderer.send('catItem:add', catItem)
+        catItem ? ipcRenderer.send('catItem:add', catItem) : null
     }
 }

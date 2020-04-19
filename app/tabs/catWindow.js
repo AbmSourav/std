@@ -7,8 +7,8 @@ let catWin;
 
 function createCatWindow() {
     catWin = new BrowserWindow({
-        width: 350,
-        height: 250,
+        width: 400,
+        height: 200,
         title: 'Add Category',
         webPreferences: {
             nodeIntegration: true,
@@ -22,11 +22,6 @@ function createCatWindow() {
         slashes: true
     }))
 
-    // reset catWin to null, when it is closed
-    catWin.on('closed', () => {
-        catWin = null;
-    })
-
     // remove main menu on catWindow
     catWin.setMenu(null);
 
@@ -34,6 +29,11 @@ function createCatWindow() {
 
     ipcMain.on('catItem:add', function(e, catItem) {
         catWin.close();
+    })
+
+    // reset catWin to null, when it is closed
+    catWin.on('closed', () => {
+        catWin = null;
     })
 
 }
