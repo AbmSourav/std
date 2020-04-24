@@ -21,6 +21,24 @@ window.addEventListener('resize', function() {
 })
 
 // Category
+// show category from 'Add Category'
+ipcRenderer.on('catItem:add', function(e, cat) {
+    electron.remote.getCurrentWindow().reload()
+    const [catKey] = cat
+    const data = Data.get(catKey)
+
+    const li = document.createElement("li")
+    const anchor = document.createElement("a")
+    anchor.setAttribute("href", '#')
+    anchor.setAttribute("class", 'cat-item')
+    anchor.setAttribute("data-catkey", data.catKey)
+    anchor.appendChild(document.createTextNode(data.catName))
+
+    li.appendChild(anchor)
+    categories.prepend(li)
+    
+})
+
 // show all Categories
 const catList = () => {
     const data = Data.get()
@@ -28,46 +46,39 @@ const catList = () => {
     let list = ``
     for ( let key of Object.keys(data).sort() ) {
         if (data[key].catKey) {
-            list += `<li><a class="cat-item" href="#" data-catkey='${key}'>${data[key].catName}</a></li>`
+            list += `<li><a class="cat-item" href="#" data-catkey='${key}'>${data[key].catName}</a><a class="cat-edit" href="#" data-catkey='${key}'><img src="./app/assets/icons/edit.svg"></a></li>`
         }
     }
     return list
 }
 categories.innerHTML = catList()
 
-// show category from 'Add Category'
-ipcRenderer.on('catItem:add', function(e, catItem) {
-    const data = Data.get()
-    const key = catItem.split(' ').join('')
-    const catKey = key.toLowerCase()
-
-    for ( let key of Object.keys(data) ) {
-        if (catKey == key && data[key].catKey) {
-            const li = document.createElement("li")
-            const anchor = document.createElement("a")
-            anchor.setAttribute("href", '#')
-            anchor.setAttribute("class", 'cat-item')
-            anchor.setAttribute("data-catkey", catKey)
-            anchor.appendChild(document.createTextNode(catItem))
-
-            li.appendChild(anchor)
-            categories.prepend(li)
-            electron.remote.getCurrentWindow().reload()
-            // console.log(catKey + '|' + key)
-        }
-    }
-})
-
 
 // create list unorderd list
 const listWrapper = document.querySelector('.list-wrapper')
+
+const brand = document.createElement("div")
+brand.setAttribute("class", 'brand')
+brand.setAttribute("style", 'display: block')
+
+const brandTitle = document.createElement("h2")
+brandTitle.appendChild(document.createTextNode("STD"))
+
+const brandDetail = document.createElement("span")
+const brandDetailText = 'Developerd by ' + ' Keramot UL Islam'
+brandDetail.textContent = brandDetailText
+brand.appendChild(brandTitle)
+brand.appendChild(brandDetail)
+listWrapper.appendChild(brand)
+
+
 const addUL = document.createElement("ul")
-addUL.setAttribute("class", 'lists-wrap')
+addUL.setAttribute("class", "lists-wrap")
 listWrapper.appendChild(addUL)
-const ul = document.querySelector('.lists-wrap')
+const ul = document.querySelector(".lists-wrap")
 
 const ListTitle = document.createElement("h2")
-ListTitle.setAttribute("class", 'list-title')
+ListTitle.setAttribute("class", "list-title")
 listWrapper.prepend(ListTitle)
 
 
@@ -102,14 +113,39 @@ addListForm.appendChild(addListInput)
 addListinputWrap.appendChild(addListForm)
 listWrapper.prepend(addListinputWrap)
 
+const getListform = document.querySelector('.add-list-form')
+const getListInput = document.querySelector('.add-list-input')
+
 addList.addEventListener('click', function(e) {
     e.preventDefault()
+
     if (addListinputWrap.style.display == 'none') {
-        addListinputWrap.setAttribute('style', 'display: flex')
-        addListInput.setAttribute('autofocus', 'true')
+        addListinputWrap.setAttribute('style', 'display: block')
+        addListInput.focus()
     } else {
         addListinputWrap.setAttribute('style', 'display: none')
     }
+
+    // submit a list to database
+    getListform.addEventListener('submit', function(e) {
+        e.preventDefault()
+        const category = addList.dataset.category
+        const listValue = getListInput.value
+        const key = listValue.split(' ').join('');
+        const listId = Math.random().toString(36).slice(2) + '_' + key.toLowerCase()
+
+        if (listValue) {
+            Data.set(listId, { listKey: listId, listName: listValue, listUpdatedName: '', catId: category })
+        
+            getListInput.value = ''
+            addListinputWrap.setAttribute('style', 'display: none')
+
+            for (let i = 0; i < categoryItem.length; i++) {
+                if (categoryItem[i].dataset.catkey == category) categoryItem[i].click()
+            }
+        }
+
+    })
 })
 
 // show all lists based on category
@@ -123,14 +159,14 @@ for (let i = 0; i < categoryItem.length; i++) {
         addListBtn.setAttribute("data-category", this.dataset.catkey)
         addListInput.setAttribute("placeholder", 'Add List in ' + catItemText)
         addListWrap.setAttribute('style', 'display: block')
+        brand.setAttribute("style", "display: none")
 
         const data = Data.get()
         const allLists = () => {
             let lists = ``
             for ( let key of Object.keys(data).sort() ) {
                 if (data[key].catId == this.dataset.catkey) {
-                    lists += `<li><a class="list-item" href="#" data-listkey='${data[key].listkey}'>${data[key].listValue}</a></li>`
-                    // console.log(data[key].listkey + '|' + data[key].listValue)
+                    lists += `<li><a class="list-item" href="#" data-listkey='${data[key].listKey}'>${data[key].listName}</a></li>`
                 }
             }
             return lists
@@ -140,38 +176,28 @@ for (let i = 0; i < categoryItem.length; i++) {
 }
 
 
-// submit a list to database
-const getListform = document.querySelector('.add-list-form')
-const getListInput = document.querySelector('.add-list-input')
+// // update category
+const catEditIcon = document.querySelectorAll('.cat-edit')
+catEditIcon.forEach( function(value, key) {
+    catEditIcon[key].addEventListener('click', function(e) {
+        e.preventDefault()
 
-getListform.addEventListener('submit', function(e) {
-    e.preventDefault()
-    const category = addList.dataset.category
-    const list = getListInput.value
-    const key = list.split(' ').join('');
-    const listKey = key.toLowerCase()
+        hasInput = document.querySelector(".update-cat")
+        hasInput ? hasInput.remove() : ''
+        const parentCat = catEditIcon[key].parentNode
+        const updateListInput = document.createElement("input")
+        updateListInput.classList.add("update-cat")
+        parentCat.appendChild(updateListInput)
+        
+        updateListInput.setAttribute('value', parentCat.firstChild.textContent)
+        updateListInput.focus()
 
-    if (list) {
-        Data.set(listKey, { catId: category, listkey: listKey, listValue: list })
-        // console.log(list + '|' + listKey)
-        const data = Data.get()
-        const addNewList = () => {
-            let lists = ``
-            for ( let key of Object.keys(data) ) {
-                if (data[key] == listKey) {
-                    lists += `<li><a class="list-item" href="#" data-listkey='${data[key].listkey}'>${data[key].listValue}</a></li>`
-                    // console.log(data[key].listkey + '|' + data[key].listValue)
-                }
-            }
-            return lists
-        }
-        ul.prepend(addNewList())
-        getListInput.value = ''
-        addListinputWrap.setAttribute('style', 'display: none')
-
-        for (let i = 0; i < categoryItem.length; i++) {
-            if (categoryItem[i].dataset.catkey == category) categoryItem[i].click()
-        }
-    }
-
+        // if (getListform.classList.contains('update-category')) {
+        //     getListform.addEventListener('submit', function(e) {
+        //         e.preventDefault()
+        //         console.log('Hello' + addListInput.value)
+        //     })
+        // }
+    })
+    
 })

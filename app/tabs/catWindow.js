@@ -27,15 +27,15 @@ function createCatWindow() {
 
     // catWin.webContents.openDevTools()
 
-    ipcMain.on('catItem:add', function(e, catItem) {
-        catWin.close();
-    })
-
-    // reset catWin to null, when it is closed
     catWin.on('closed', () => {
         catWin = null;
     })
 
+    // ipcMain.on('catItem:add', function(e, catItem) {
+    //     catWin = catWin.close();
+        // catWin = null;
+    // })
+    
 }
 
 exports.createCatWindow = createCatWindow;

@@ -47,14 +47,13 @@ function createWindow() {
         app.quit()
     })
 
-   ipcMain.on('catItem:add', function(e, catItem) {
-        const key = catItem.split(' ').join('');
-        const catKey = key.toLowerCase()
-        console.log(catItem + '|' + catKey);
+   ipcMain.on('catItem:add', function(e, cat) {
+        const [catKey, catItem] = cat
+        // console.log(catKey, catItem);
 
         const abmSourav = new Store({name: 'std'})
-        abmSourav.set( catKey, {catKey: catKey, catName: catItem} )
-        win.webContents.send('catItem:add', catItem);
+        abmSourav.set( catKey, { catKey: catKey, catName: catItem, catUpdatedName: '' } )
+        win.webContents.send('catItem:add', cat);
     })
 }
 
