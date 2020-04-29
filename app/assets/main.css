@@ -9,6 +9,9 @@ body {
     font-size: 14px;
     color: #333;
 }
+input {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
 
 .app {
     display: flex;
@@ -60,11 +63,15 @@ body {
 .categories li a:hover {
     box-shadow: 0px 1px 25px rgba(0, 0, 0, 0.30);
 }
+.categories li a.active-cat {
+    color: #fff;
+    box-shadow: 0px 1px 25px rgba(0, 0, 0, 0.30);
+}
 .update-cat {
     font-size: 16px;
     position: absolute;
-    width: 80%;
-    top: 6px;
+    width: 70%;
+    top: 5px;
     left: 10px;
     padding: 5px;
     background-color: #3c3c3c;
@@ -76,19 +83,29 @@ body {
     outline: none;
 }
 
-.categories .cat-edit {
-    position: absolute;
-    right: 5px;
-    z-index: 2;
-    top: 3px;
+.categories .cat-edit,
+.categories .cat-delete {
     display: none;
+    position: absolute;
+    z-index: 2;
 }
+.categories .cat-edit {
+    right: 30px;
+    top: 3px;
+}
+.categories .cat-delete {
+    right: 5px;
+    top: 3px;
+}
+
+.categories .cat-delete:hover,
 .categories .cat-edit:hover {
     display: block;
     background-color: #444444;
     box-shadow: 2px 1px 25px rgba(0, 0, 0, 0.80);
 }
-.categories li:hover .cat-edit {
+.categories li:hover .cat-edit,
+.categories li:hover .cat-delete {
     display: block;
     padding: 5px;
 }
@@ -109,16 +126,19 @@ body {
     z-index: -1;
     color: #ececec;
 }
-.brand span {
+.brand .brand-detail {
     position: absolute;
     bottom: 15px;
-    font-size: 18px;
+    font-size: 16px;
     z-index: -1;
     color: #bfbfbf;
     left: 50%;
     transform: translateX(-50%);
     width: 100%;
     text-align: center;
+}
+.brand .brand-detail span {
+    padding-left: 5px;
 }
 
 .list-title {
@@ -173,17 +193,60 @@ body {
 }
 
 /* list item */
+.lists-wrap {
+    padding: 20px 20px 0;
+}
 .lists-wrap li {
     list-style: none;
     margin-bottom: 10px;
+    position: relative;
 }
-.lists-wrap li a {
+.lists-wrap li .list-item {
     display: block;
+    width: 100%;
     padding: 10px;
     text-decoration: none;
     color: #333;
 }
-.lists-wrap li a:hover {
-    box-shadow: 1px 2px 12px rgba(0, 0, 0, 0.2);
+.lists-wrap li .list-item:hover {
+    box-shadow: 0px 1px 25px rgba(0, 0, 0, 0.12);
     border-radius: 3px;
+}
+
+.list-option {
+    display: none;
+    position: absolute;
+    top: 3px;
+    right: 0;
+    z-index: 3;
+}
+.lists-wrap li:hover .list-option {
+    display: flex;
+}
+
+.list-edit,
+.list-delete {
+    display: block;
+    padding: 5px;
+}
+.list-edit:hover,
+.list-delete:hover {
+    box-shadow: 0px 1px 20px rgba(0, 0, 0, 0.30);
+}
+
+.update-listform {
+    width: 100%;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    z-index: 2;
+}
+.update-list {
+    width: 100%;
+    font-size: 14px;
+    padding: 5px;
+    border: none;
+}
+.update-list:focus {
+    outline: none;
 }

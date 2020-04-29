@@ -52,7 +52,7 @@ function createWindow() {
         // console.log(catKey, catItem);
 
         const abmSourav = new Store({name: 'std'})
-        abmSourav.set( catKey, { catKey: catKey, catName: catItem, catUpdatedName: '' } )
+        abmSourav.set( catKey, { catKey: catKey, catName: catItem } )
         win.webContents.send('catItem:add', cat);
     })
 }

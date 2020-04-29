@@ -25,7 +25,7 @@ const mainMenu = [
         }
     },
     { 
-        label: 'App Detail',
+        label: 'About STD',
         click() {
             createAboutWindow();
         }

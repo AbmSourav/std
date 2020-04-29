@@ -1,2 +1,2 @@
 # std
-ToDo App
+ToDo + Note Taking Desktop App
