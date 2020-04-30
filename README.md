@@ -1,2 +1,4 @@
 # std
-ToDo App
+ToDo + Note taking Desktop App
+
+Build with Vanilla JS, NodeJS, ElectronJS
