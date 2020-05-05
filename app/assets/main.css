@@ -1,0 +1,385 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 14px;
+    color: #333;
+}
+input {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.app {
+    display: flex;
+}
+.category-wrapper {
+    width: 35%;
+    background-color: #000915;
+    padding-right: 5px;
+    position: relative;
+}
+.categories {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    padding-top: 8px;
+}
+.categories:hover {
+    overflow-y: auto;
+}
+.categories::-webkit-scrollbar {
+    width: 4px;
+}
+.categories::-webkit-scrollbar-track {
+    background: transparent;
+}
+.categories::-webkit-scrollbar-thumb {
+    background-color: #7dbdff;
+    border-radius: 20px;
+}
+
+.categories li {
+    list-style: none;
+    position: relative;
+}
+.categories li .cat-item {
+    display: block;
+    width: 100%;
+    font-size: 16px;
+    font-weight: 500;
+    text-decoration: none;
+    color: #7dbdff;
+    padding: 10px 10px 10px 15px;
+    margin-bottom: 5px;
+    outline: none;
+}
+.categories li a:hover {
+    background-color: #000915;
+    box-shadow: 1px 3px 15px #00142f;
+}
+.categories li a.active-cat {
+    color: #fff;
+    box-shadow: 1px 2px 10px #00142f;
+}
+.update-cat {
+    font-size: 16px;
+    position: absolute;
+    width: 70%;
+    top: 5px;
+    left: 10px;
+    padding: 5px;
+    background-color: #000915;
+    color: #fff;
+    border: none;
+    z-index: 2;
+}
+.update-cat:focus {
+    outline: none;
+}
+
+.categories .cat-edit,
+.categories .cat-delete {
+    display: none;
+    position: absolute;
+    z-index: 2;
+}
+.categories .cat-edit {
+    right: 30px;
+    top: 3px;
+}
+.categories .cat-delete {
+    right: 5px;
+    top: 3px;
+}
+
+.categories .cat-delete:hover,
+.categories .cat-edit:hover {
+    display: block;
+    background-color: #000;
+    box-shadow: 1px 2px 10px #00142f;
+}
+.categories li:hover .cat-edit,
+.categories li:hover .cat-delete {
+    display: block;
+    padding: 6px 5px;
+}
+.categories .cat-edit:after,
+.categories .cat-delete:after {
+    content: '';
+    opacity: 0;
+    transition: opacity .3s;
+    transition-delay: .2s;
+} 
+.categories .cat-edit:hover:after,
+.categories .cat-delete:hover:after {
+    width: max-content;
+    opacity: 1;
+    position: absolute;
+    bottom: -34px;
+    left: -4px;
+    padding: 5px 8px;
+    border-radius: 5px;
+    background-color: #01152f;
+    border: 1px solid #000f22;
+    color: #fff;
+}
+.categories .cat-edit:hover:after {
+    content: 'Edit';
+}
+.categories .cat-delete:hover:after {
+    content: 'Delete';
+    left: -30px;
+}
+
+/* list */
+.list-wrapper {
+    position: relative;
+    width: 65%;
+    padding: 15px;
+    overflow: hidden;
+}
+.list-wrapper:hover {
+    overflow-y: auto;
+}
+.list-wrapper::-webkit-scrollbar {
+    width: 4px;
+}
+.list-wrapper::-webkit-scrollbar-track {
+    background: transparent;
+}
+.list-wrapper::-webkit-scrollbar-thumb {
+    background-color: #8d8d8d;
+    border-radius: 20px;
+}
+
+.brand h2 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 40px;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    color: #ececec;
+}
+.brand .brand-detail {
+    position: absolute;
+    bottom: 15px;
+    font-size: 16px;
+    z-index: -1;
+    color: #bfbfbf;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    text-align: center;
+}
+.brand .brand-detail span {
+    padding-left: 5px;
+}
+
+.list-title {
+    font-size: 22px;
+    color: #7dbdff;
+    padding: 8px;
+    margin-bottom: 20px;
+}
+
+/* add list button */
+.list-wrapper .add-list-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px;
+    background-color: rgba(30, 44, 212, 0.55);
+    box-shadow: 2px 5px 12px rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    border-radius: 50px;
+    z-index: 3;
+}
+.list-wrapper .add-list-btn:hover {
+    background-color: rgba(30, 44, 212, 0.65);
+}
+.list-wrapper .add-list-btn:after {
+    content: '';
+    position: absolute;
+    opacity: 0;
+    left: 0;
+    bottom: 0;
+    transition: opacity .2s, .1s;
+}
+.list-wrapper .add-list-btn:hover:after {
+    content: 'Add List';
+    opacity: 1;
+    width: max-content;
+    padding: 5px;
+    bottom: -33px;
+    left: -25px;
+    z-index: 3;
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.6);
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.45);
+    border-radius: 5px;
+}
+
+/* add list input */
+.input-wrap {
+    max-width: 85%;
+    padding: 20px 20px 25px;
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 1px 2px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 40px;
+    z-index: 2;
+}
+.add-list-form {
+    width: 100%;
+    padding: 0 10px;
+}
+.add-list-input {
+    width: 100%;
+    font-size: 14px;
+    padding: 8px 0;
+    border: none;
+    border-bottom: 2px solid #bbbaba;
+}
+.add-list-input:focus,
+.add-list-input:active {
+    border-bottom: 2px solid rgba(30, 45, 212, 0.8);
+    outline: none;
+}
+
+/* list item */
+.lists-wrap {
+    padding: 20px 15px 0;
+}
+.lists-wrap li {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    position: relative;
+}
+.lists-wrap li .list-item {
+    display: block;
+    position: relative;
+    width: 67%;
+    padding: 10px;
+    margin-right: 10px;
+    text-decoration: none;
+    color: #525252;
+}
+.lists-wrap .done-emoji {
+    font-size: 20px;
+    padding: 0 5px;
+    top: 7px;
+    right: 26%;
+}
+.lists-wrap .notdone-emoji {
+    font-size: 20px;
+    padding: 0 5px;
+    top: 7px;
+    right: 26%;
+}
+.done-emoji img, 
+.notdone-emoji img {
+    width: 28px;
+    height: 28px;
+}
+.lists-wrap li:hover {
+    box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.4);
+    border-radius: 5px;
+}
+
+.list-option {
+    display: flex;
+    align-items: center;
+}
+
+.list-edit,
+.list-delete,
+.list-done,
+.list-not-done {
+    display: none;
+    position: relative;
+    align-items: center;
+    padding: 5px;
+}
+.list-edit:hover,
+.list-delete:hover,
+.list-done:hover,
+.list-not-done:hover {
+    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.30);
+}
+.lists-wrap li:hover .list-done,
+.lists-wrap li:hover .list-not-done,
+.lists-wrap li:hover .list-edit,
+.lists-wrap li:hover .list-delete {
+    display: flex;
+}
+
+.list-edit:after,
+.list-delete:after,
+.list-done:after,
+.list-not-done:after {
+    content: '';
+    position: absolute;
+    opacity: 0;
+    transition: opacity .3s;
+    transition-delay: .2s;
+}
+.list-edit:hover:after,
+.list-delete:hover:after,
+.list-done:hover:after,
+.list-not-done:hover:after {
+    width: max-content;
+    z-index: 1;
+    opacity: 1;
+    bottom: -34px;
+    left: 0;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.6);
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.45);
+    color: #fff;
+}
+.list-edit:hover:after {
+    content: 'Edit'
+}
+.list-delete:hover:after {
+    content: 'Delete'
+}
+.list-done:hover:after {
+    content: 'Done'
+}
+.list-not-done:hover:after {
+    content: 'Not Done'
+}
+
+.update-listform {
+    width: 65%;
+    position: absolute;
+    top: 0;
+    left: 5px;
+    z-index: 1;
+}
+.update-list {
+    width: 100%;
+    font-size: 14px;
+    padding: 5px;
+    border: none;
+}
+.update-list:focus {
+    outline: none;
+}
