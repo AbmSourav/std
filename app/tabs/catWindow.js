@@ -1,5 +1,5 @@
 const electron = require("electron");
-const {BrowserWindow, ipcMain} = electron;
+const {BrowserWindow} = electron;
 const url = require("url");
 const path = require("path");
 
@@ -9,6 +9,7 @@ function createCatWindow() {
     catWin = new BrowserWindow({
         width: 400,
         height: 200,
+        resizable: false,
         title: 'Add Category',
         webPreferences: {
             nodeIntegration: true,
@@ -30,11 +31,6 @@ function createCatWindow() {
     catWin.on('closed', () => {
         catWin = null;
     })
-
-    // ipcMain.on('catItem:add', function(e, catItem) {
-    //     catWin = catWin.close();
-        // catWin = null;
-    // })
     
 }
 

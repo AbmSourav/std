@@ -9,6 +9,7 @@ function createAboutWindow() {
     aboutWin = new BrowserWindow({
         width: 450,
         height: 250,
+        resizable: false,
         title: 'About STD',
         webPreferences: {
             nodeIntegration: true,

@@ -13,18 +13,20 @@ input {
 }
 
 #catForm {
-    padding: 0 20px;
+    padding: 0 40px;
     margin-top: 30vh;
 }
 #catForm input {
-    font-size: 16px;
+    font-size: 25px;
+    font-weight: 500;
+    color: #7dbdff;
     width: 100%;
-    border: 1px solid #bbbaba;
-    padding: 10px;
-    border-radius: 5px;
+    border: none;
+    border-bottom: 2px solid #bbbaba;
+    padding: 6px 0;
 }
 #catForm input:focus,
 #catForm input:active {
-    border: 1px solid #7dbdff;
+    border-bottom: 2px solid rgba(30, 45, 212, 0.8);
     outline: none;
 }

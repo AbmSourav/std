@@ -5,9 +5,8 @@ const Store = require("electron-store")
 const app = document.getElementById('app')
 const Data = new Store({name: 'std'})
 
+// category & list wrapper
 app.innerHTML = `<div class="category-wrapper"></div><div class="list-wrapper"></div>`
-
-// category
 const categoryWrapper = document.querySelector('.category-wrapper')
 categoryWrapper.innerHTML = `<ul class="categories"></ul>`
 const categories = document.querySelector('.categories')
@@ -20,20 +19,9 @@ window.addEventListener('resize', function() {
     app.setAttribute('style', 'height: '+ window.innerHeight + 'px')
 })
 
-// Category
 // show category from 'Add Category'
 ipcRenderer.on('catItem:add', function(e, cat) {
     electron.remote.getCurrentWindow().reload()
-    // const [catKey] = cat
-    // const data = Data.get(catKey)
-
-    // const li = document.createElement("li")
-    // const catAnchor = `<a class="cat-item" href="#" data-catkey='${catKey}'>${data.catName}</a>`
-    // const catEdit = `<a class="cat-edit" href="#" data-catkey='${catKey}'><img src="./app/assets/icons/edit.svg"></a>`
-    // const catDelete = `<a class="cat-delete" href="#" data-catkey='${catKey}'><img src="./app/assets/icons/close.svg"></a>`
-
-    // li.innerHTML = catAnchor + catEdit + catDelete
-    // categories.prepend(li)
     
 })
 
@@ -45,8 +33,8 @@ const catList = () => {
     for ( let key of Object.keys(data).sort() ) {
         if (data[key].catKey) {
             const catAnchor = `<a class="cat-item" href="#" data-catkey='${key}'>${data[key].catName}</a>`
-            const catEdit = `<a class="cat-edit" href="#" data-catkey='${key}'><img src="./app/assets/icons/edit.svg"></a>`
-            const catDelete = `<a class="cat-delete" href="#" data-catkey='${key}'><img src="./app/assets/icons/close.svg"></a>`
+            const catEdit = `<a class="cat-edit" href="#" data-catkey='${key}'><img src="./app/assets/icons/edit-white.svg"></a>`
+            const catDelete = `<a class="cat-delete" href="#" data-catkey='${key}'><img src="./app/assets/icons/close-white.svg"></a>`
             list += `<li>${catAnchor} ${catEdit} ${catDelete}</li>`
         }
     }
@@ -78,7 +66,7 @@ ListTitle.setAttribute("class", "list-title")
 listWrapper.prepend(ListTitle)
 
 
-// add a list
+// add a list input
 const addListWrap = document.createElement("div")
 addListWrap.setAttribute("class", 'add-list-wrap')
 addListWrap.setAttribute("style", 'display: none')
@@ -87,7 +75,6 @@ listWrapper.appendChild(addListWrap)
 const addListBtn = document.createElement("a")
 addListBtn.setAttribute("class", 'add-list-btn')
 addListBtn.setAttribute("href", '#')
-addListBtn.setAttribute("title", 'Add List');
 const addListIcon = document.createElement("img")
 addListIcon.setAttribute("src", './app/assets/icons/add.svg')
 
@@ -112,6 +99,7 @@ listWrapper.prepend(addListinputWrap)
 const getListform = document.querySelector('.add-list-form')
 const getListInput = document.querySelector('.add-list-input')
 
+// add list
 addList.addEventListener('click', (e) => {
     e.preventDefault()
 
@@ -131,7 +119,7 @@ addList.addEventListener('click', (e) => {
         const listId = key.toLowerCase() + '_' + Math.random().toString(36).slice(2)
 
         if (listValue) {
-            Data.set(listId, { listKey: listId, listName: listValue, catId: category })
+            Data.set(listId, { listKey: listId, listName: listValue, done: false, notDone: false, catId: category })
         
             getListInput.value = ''
             addListinputWrap.setAttribute('style', 'display: none')
@@ -146,7 +134,7 @@ addList.addEventListener('click', (e) => {
 
 
 // update list
-const listUpdate = () => {
+const listUpdate = (catDom) => {
     const listEditIcon = document.querySelectorAll('.list-edit')
     
     if (listEditIcon) {
@@ -159,30 +147,115 @@ const listUpdate = () => {
                     hasForm.remove()
                 } else {
                     const parentList = listEditIcon[key].parentNode
+                    const contentElement = parentList.parentNode.firstChild
+                    const catID = parentList.parentNode.dataset.catid
+                    const listDone = parentList.dataset.listdone
+                    const listNotDone = parentList.dataset.listnotdone
                     const updateListForm = document.createElement("form")
                     updateListForm.classList.add("update-listform")
 
                     const updateListInput = document.createElement("input")
                     updateListInput.classList.add("update-list")
+                    updateListInput.setAttribute("style", 'height:' + contentElement.offsetHeight + 'px')
                     updateListForm.appendChild(updateListInput)
                     parentList.parentNode.appendChild(updateListForm)
                     
-                    updateListInput.setAttribute('value', parentList.parentNode.firstChild.textContent)
+                    updateListInput.setAttribute('value', contentElement.textContent)
                     updateListInput.focus()
 
                     const listKey = listEditIcon[key].dataset.listkey
                     updateListForm.addEventListener('submit', (e) => {
                         e.preventDefault()
-                        Data.set(listKey, {listKey: listKey, listName: updateListInput.value, catId: parentList.parentNode.dataset.catid})
+                        
+                        Data.set(listKey, {listKey: listKey, listName: updateListInput.value, done: listDone, notDone: listNotDone, catId: catID})
                         listEditIcon[key].parentNode.firstChild.innerHTML = updateListInput.value
                         updateListForm.remove()
+                        catDom.click()
                     })
                 }
-
             })
             
         })
     }
+}
+
+// delete List Item
+const listDeleteItem = () => {
+    const listDeleteIcon = document.querySelectorAll('.list-delete')
+
+    if (listDeleteIcon) {
+        listDeleteIcon.forEach( (value, key) => {
+            listDeleteIcon[key].addEventListener('click', (e) => {
+                e.preventDefault()
+        
+                const listItem = listDeleteIcon[key].parentNode.parentNode
+                Data.delete(listItem.firstChild.dataset.listkey)
+                listItem.remove()
+            })
+        })
+    }
+}
+
+// list task done
+const listDone = () => {
+    const listDoneIcon = document.querySelectorAll('.list-done')
+
+    listDoneIcon.forEach( (value, key) => {
+        listDoneIcon[key].addEventListener('click', (e) => {
+            e.preventDefault()
+
+            const parentList = listDoneIcon[key].parentNode
+            const catid = parentList.parentNode.dataset.catid
+            const listkey = listDoneIcon[key].dataset.listkey
+            const listValue = parentList.parentNode.firstChild.textContent
+            const hasDone = parentList.querySelector(".done-emoji")
+            const hasNotdone = parentList.querySelector(".notdone-emoji")
+            
+            if (hasDone) {
+                Data.set(listkey, {listKey: listkey, listName: listValue, done: false, notDone: false, catId: catid})
+                return hasDone.remove()
+            } else {
+                Data.set(listkey, {listKey: listkey, listName: listValue, done: true, notDone: false, catId: catid})
+                hasNotdone ? hasNotdone.remove() : ''
+                const emoji = `<img src="./app/assets/icons/clap.gif">`
+                const emojiElement = document.createElement("span")
+                emojiElement.classList.add("done-emoji")
+                emojiElement.innerHTML = emoji
+                return parentList.appendChild(emojiElement)
+            }
+        })
+    })
+}
+
+// list task not done
+const listNotDone = () => {
+    const listNotDoneIcon = document.querySelectorAll('.list-not-done')
+
+    listNotDoneIcon.forEach( (value, key) => {
+        listNotDoneIcon[key].addEventListener('click', (e) => {
+            e.preventDefault()
+
+            const parentList = listNotDoneIcon[key].parentNode
+            const catid = parentList.parentNode.dataset.catid
+            const listkey = listNotDoneIcon[key].dataset.listkey
+            const listValue = parentList.parentNode.firstChild.textContent
+            const hasNotdone = parentList.querySelector(".notdone-emoji")
+            const hasdone = parentList.querySelector(".done-emoji")
+            
+            if (hasNotdone) {
+                Data.set(listkey, {listKey: listkey, listName: listValue, done: false, notDone: false, catId: catid})
+                return hasNotdone.remove()
+            } else {
+                Data.set(listkey, {listKey: listkey, listName: listValue, done: false, notDone: true, catId: catid})
+                hasdone ? hasdone.remove() : ''
+                const emoji = `<img src="./app/assets/icons/facepalm.gif">`
+                const emojiElement = document.createElement("span")
+                emojiElement.classList.add("notdone-emoji")
+                emojiElement.innerHTML = emoji
+                return parentList.appendChild(emojiElement)
+            }
+        })
+    })
 }
 
 // show all lists based on category
@@ -201,25 +274,40 @@ categoryItem.forEach( (value, catItemKey) => {
         addListInput.setAttribute("placeholder", 'Add List in ' + catItemText)
         addListWrap.setAttribute('style', 'display: block')
         brand.setAttribute("style", "display: none")
-
+        // data-listdone="${data[key].done}" data-listnotdone="${data[key].notDone}"
         const data = Data.get()
         const allLists = () => {
             let lists = ``
             for ( let key of Object.keys(data).sort() ) {
                 if (data[key].catId == categoryItem[catItemKey].dataset.catkey) {
-                    const listAnchor = `<a class="list-item" href="#" data-listkey='${data[key].listKey}'>${data[key].listName}</a>`
-                    const listEdit = `<a class="list-edit" href="#" data-listkey='${data[key].listKey}'><img src="./app/assets/icons/edit.svg"></a>`
-                    const listDelete = `<a class="list-delete" href="#" data-listkey='${data[key].listKey}'><img src="./app/assets/icons/close.svg"></a>`
-                    const listOptions = `<div class="list-option">${listEdit} ${listDelete}</div>`
-                    lists += `<li data-catid='${data[key].catId}'>${listAnchor} ${listOptions}</li>`
+                    const doneEmoji = (data[key].done == true) ? `<span class="done-emoji"><img src="./app/assets/icons/clap.gif"></span>` : ''
+                    const notDoneEmoji = (data[key].notDone == true) ? `<span class="notdone-emoji"><img src="./app/assets/icons/facepalm.gif"></span>` : ''
+
+                    const listname = `<span class="list-item" href="#" data-listkey="${data[key].listKey}">${data[key].listName}</span>`
+                    const listDone = `<a class="list-done" href="#" data-listkey="${data[key].listKey}"><img src="./app/assets/icons/done.svg"></a>`
+                    const listNotDone = `<a class="list-not-done" href="#" data-listkey="${data[key].listKey}"><img src="./app/assets/icons/block.svg"></a>`
+                    const listEdit = `<a class="list-edit" href="#" data-listkey="${data[key].listKey}"><img src="./app/assets/icons/edit.svg"></a>`
+                    const listDelete = `<a class="list-delete" href="#" data-listkey="${data[key].listKey}"><img src="./app/assets/icons/close.svg"></a>`
+                    
+                    const listOptions = `<div class="list-option">${listDone} ${listNotDone} ${listEdit} ${listDelete} ${doneEmoji} ${notDoneEmoji}</div>`
+                    lists += `<li data-catid='${data[key].catId}'>${listname} ${listOptions}</li>`
                 }
             }
             return lists
         }
         ul.innerHTML = allLists()
-
+        
         // list edit and update
-        listUpdate()
+        listUpdate(categoryItem[catItemKey])
+
+        // list delete item
+        listDeleteItem()
+
+        // list done
+        listDone()
+        
+        // list not done
+        listNotDone()
     })
 
 })

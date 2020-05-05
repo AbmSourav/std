@@ -4,7 +4,6 @@ const path = require("path");
 const url = require("url");
 const mainMenu = require("../menu");
 const Store = require("electron-store");
-// const {DataStor} = require("../DataStore")
 
 
 let win;
@@ -15,8 +14,7 @@ function createWindow() {
         height: 500,
         title: 'STD',
         webPreferences: {
-            nodeIntegration: true,
-            preload: path.join(__dirname, '../../preload.js')
+            nodeIntegration: true
         }
     })
 
@@ -28,7 +26,7 @@ function createWindow() {
     }))
 
     // Open the DevTools.
-    win.webContents.openDevTools()
+    // win.webContents.openDevTools()
 
     // reset win to null, when it is closed
     win.on('closed', () => {
@@ -49,7 +47,6 @@ function createWindow() {
 
    ipcMain.on('catItem:add', function(e, cat) {
         const [catKey, catItem] = cat
-        // console.log(catKey, catItem);
 
         const abmSourav = new Store({name: 'std'})
         abmSourav.set( catKey, { catKey: catKey, catName: catItem } )
