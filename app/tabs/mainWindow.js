@@ -10,7 +10,7 @@ let win;
 
 function createWindow() {
     win = new BrowserWindow({
-        width: 800,
+        width: 850,
         height: 500,
         title: 'STD',
         webPreferences: {
@@ -45,13 +45,19 @@ function createWindow() {
         app.quit()
     })
 
-   ipcMain.on('catItem:add', function(e, cat) {
+   ipcMain.on('NEW_CAT', function(e, cat) {
         const [catKey, catItem] = cat
 
         const abmSourav = new Store({name: 'std'})
         abmSourav.set( catKey, { catKey: catKey, catName: catItem } )
-        win.webContents.send('catItem:add', cat);
+        win.webContents.send('NEW_CAT', cat);
     })
+
+    // app version for about window
+    ipcMain.on('APP_VERSION', function(e) {
+        e.sender.send('APP_VERSION', { version: app.getVersion() } )
+    })
+
 }
 
 exports.createWindow = createWindow;

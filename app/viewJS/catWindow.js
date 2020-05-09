@@ -2,6 +2,13 @@ const electron = require("electron")
 const {ipcRenderer} = electron
 
 
+closeIcon = document.querySelector(".cat-window-close")
+closeIcon.addEventListener('click', (e) => {
+    e.preventDefault()
+
+    electron.remote.getCurrentWindow().close()
+})
+
 const catForm = document.querySelector('#catForm')
 catInput = document.querySelector('#catInput')
 
@@ -15,7 +22,7 @@ if ( catInput ) {
         const catId = key.toLowerCase() + '_' + Math.random().toString(36).slice(2)
         const cat = [catId, catName]
 
-        catName ? ipcRenderer.send('catItem:add', cat) : null
+        catName ? ipcRenderer.send('NEW_CAT', cat) : null
         catInput.value = ''
         const catWin = electron.remote.getCurrentWindow()
         catWin.close()

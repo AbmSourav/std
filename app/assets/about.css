@@ -14,7 +14,19 @@ code {
 }
 
 .about-std {
-    padding-left: 20px;
+    padding: 25px 0 0 20px;
+}
+
+.about-window-close {
+    display: flex;
+    position: absolute;
+    padding: 8px;
+    top: 8px;
+    right: 8px;
+}
+.about-window-close:hover {
+    background-color: #eee;
+    border-radius: 50px;
 }
 
 .about-std .user-greetings {

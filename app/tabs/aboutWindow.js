@@ -1,5 +1,5 @@
 const electron = require("electron");
-const {app, BrowserWindow, ipcMain} = electron;
+const {BrowserWindow} = electron;
 const url = require("url");
 const path = require("path");
 
@@ -7,10 +7,11 @@ let aboutWin;
 
 function createAboutWindow() {
     aboutWin = new BrowserWindow({
-        width: 450,
-        height: 250,
-        resizable: false,
+        width: 460,
+        height: 280,
         title: 'About STD',
+        resizable: false,
+        frame: false,
         webPreferences: {
             nodeIntegration: true,
         }
@@ -33,10 +34,6 @@ function createAboutWindow() {
 
     // remove main menu on subwindow
     aboutWin.setMenu(null);
-
-    ipcMain.on('APP_VERSION', function(e) {
-        e.sender.send('APP_VERSION', { version: app.getVersion() } )
-    })
 
 }
 

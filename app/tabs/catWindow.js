@@ -9,8 +9,9 @@ function createCatWindow() {
     catWin = new BrowserWindow({
         width: 400,
         height: 200,
-        resizable: false,
         title: 'Add Category',
+        resizable: false,
+        frame: false,
         webPreferences: {
             nodeIntegration: true,
         }

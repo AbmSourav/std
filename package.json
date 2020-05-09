@@ -2,7 +2,8 @@
   "name": "std",
   "productName": "STD",
   "version": "0.0.5",
-  "description": "A ToDo and Note taking App build with Electron.",
+  "author": "Keramot UL Islam <keramotul.islam@gmail.com>",
+  "description": "A ToDo and Note taking Desktop App build with Electron.",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
@@ -10,16 +11,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AbmSourav/std.git"
+    "url": "https://github.com/AbmSourav/std.git"
   },
-  "author": "Keramot UL Islam <keramotul.islam@gmail.com>",
   "license": "MIT",
   "keywords": [
     "Todo",
     "Note",
     "Electron",
     "To do app",
-    "Note taking app"
+    "Note taking app",
+    "Desktop app"
   ],
   "bugs": {
     "url": "https://github.com/AbmSourav/std/issues"
@@ -31,7 +32,8 @@
       "target": [
         "snap"
       ],
-      "icon": "./app/assets/icons/256x256.png"
+      "icon": "./app/assets/icons/",
+      "category": "Utility"
     }
   },
   "dependencies": {
