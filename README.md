@@ -6,3 +6,8 @@ Install on any Linux distro using **Snap**. On Ubuntu 20.4 you can also install 
 
 ### Snap Installation
 `sudo snap install std`
+
+
+    ElectronJS version updated
+    Electron Builder version updated
+
