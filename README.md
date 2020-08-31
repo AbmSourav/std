@@ -8,6 +8,5 @@ Install on any Linux distro using **Snap**. On Ubuntu 20.4 you can also install 
 `sudo snap install std`
 
 
-    ElectronJS version updated
-    Electron Builder version updated
+![STD Demo](https://github.com/AbmSourav/std/blob/dev/assets/STD.gif)
 
