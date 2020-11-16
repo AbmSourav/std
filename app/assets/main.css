@@ -200,7 +200,7 @@ input {
     box-shadow: 2px 5px 12px rgba(0, 0, 0, 0.5);
     position: fixed;
     top: 10px;
-    right: 10px;
+    right: 15px;
     border-radius: 50px;
     z-index: 3;
 }

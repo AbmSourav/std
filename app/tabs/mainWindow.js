@@ -26,7 +26,7 @@ function createWindow() {
     }))
 
     // Open the DevTools.
-    // win.webContents.openDevTools()
+    win.webContents.openDevTools()
 
     // reset win to null, when it is closed
     win.on('closed', () => {
