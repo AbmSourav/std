@@ -18,7 +18,7 @@ ipcRenderer.on('NEW_CAT', function(e, cat) {
     electron.remote.getCurrentWindow().reload()
 })
 
-// all list/task in a category
+// list of categories
 catList(Data)
 
 // add list in category
