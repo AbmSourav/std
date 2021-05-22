@@ -259,6 +259,78 @@ input {
     outline: none;
 }
 
+/* add list priority */
+.priority-wrap {
+	display: flex;
+    padding: 35px 0 10px;
+}
+.priority-heading {
+    font-size: 18px;
+    color: #717171;
+}
+
+.priority-list {
+	list-style: none;
+}
+.priority-label {
+	display: block;
+    position: relative;
+    cursor: pointer;
+	padding-left: 40px;
+}
+
+.priority-hidden-checkbox {
+    opacity: 0;
+    position: absolute;
+    cursor: pointer;
+}
+
+.priority-checkbox {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    display: block;
+}
+.priority-checkbox.high {
+	border: 4px solid #ff0000;
+}
+.priority-checkbox.low {
+	border: 4px solid #009e38;
+}
+.priority-checkbox.important {
+	border: 4px solid #ff6600;
+}
+.priority-wrap .priority-checkbox:after {
+    content: "";
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    left: 1px;
+    top: 1px;
+    display: none;
+    background-color: #0072ff;
+    border-radius: 50%;
+}
+.priority-label input:checked ~ .priority-checkbox:after {
+	display: block;
+}
+
+/* add list button */
+.add-list-submit {
+    border: none;
+    padding: 10px 15px;
+    margin-top: 20px;
+    cursor: pointer;
+    background-color: rgba(30, 44, 212, 0.55);
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 550;
+}
+.add-list-submit:hover {
+	background-color: rgba(30, 44, 212, 0.65);
+}
+
 /* list item */
 .lists-wrap {
     padding: 20px 15px 0;
@@ -270,6 +342,7 @@ input {
     justify-content: space-between;
     margin-bottom: 5px;
     position: relative;
+	/* background-image: linear-gradient(45deg, #ffdada, transparent); */
 }
 .lists-wrap li .list-item {
     display: block;

@@ -8,6 +8,7 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
+    "watch": "webpack --config webpack.common.js --watch",
     "dist-linux": "electron-builder --linux"
   },
   "repository": {
@@ -39,10 +40,23 @@
     }
   },
   "dependencies": {
-    "electron-store": "^5.1.1"
+    "electron": "^12.0.9",
+    "electron-store": "^8.0.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
   },
   "devDependencies": {
-    "electron": "^9.3.1",
-    "electron-builder": "^22.7.0"
+    "@babel/core": "^7.11.6",
+    "@babel/preset-env": "^7.11.5",
+    "@babel/preset-react": "^7.10.4",
+    "babel-loader": "^8.1.0",
+    "css-loader": "^4.3.0",
+    "electron-builder": "^22.10.5",
+    "electron-reload": "^1.5.0",
+    "sass": "^1.26.11",
+    "sass-loader": "^10.0.2",
+    "style-loader": "^1.2.1",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12"
   }
 }

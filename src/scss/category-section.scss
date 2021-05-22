@@ -1,0 +1,14 @@
+.category-wrapper {
+    background-color: #000915;
+    padding-right: 5px;
+    position: relative;
+}
+.categories {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    padding-top: 8px;
+}
