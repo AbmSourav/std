@@ -1,7 +1,44 @@
 const { createHTMLElement } = require("./helper")
 
-const addTask = (Data) => {
 
+const priority = () => {
+	let prevNode = null;
+	const priorityBtns = document.querySelectorAll('.piority-btn')
+	priorityBtns.forEach( (value, key) => {
+		priorityBtns[key].classList.remove('checked');
+	})
+
+	priorityBtns.forEach( (value, key) => {
+		priorityBtns[key].onclick = function() {
+			if (prevNode && prevNode !== priorityBtns[key]) {
+				if (prevNode.classList.contains('checked') === true) {
+					prevNode.classList.remove('checked');
+				}
+			}
+			
+			if (priorityBtns[key].classList.contains('checked') === true) {
+				priorityBtns[key].classList.remove('checked');
+			} else {
+				priorityBtns[key].classList.add('checked')
+			}
+
+			if (priorityBtns[key].classList.contains('checked')) {
+				if (priorityBtns[key].classList.contains('important')) {
+					priorityBtns[key].parentNode.setAttribute('data-priorityStatus', 'important')
+				} else if (priorityBtns[key].classList.contains('high')) {
+					priorityBtns[key].parentNode.setAttribute('data-priorityStatus', 'high')
+				} else if (priorityBtns[key].classList.contains('compulsory')) {
+					priorityBtns[key].parentNode.setAttribute('data-priorityStatus', 'compulsory')
+				}
+			}
+
+			prevNode = priorityBtns[key]
+		}
+	})
+}
+
+
+const addTask = (Data) => {
 	const categoryItem = document.querySelectorAll('.cat-item')
 
 	const addListinputWrap = createHTMLElement({
@@ -83,40 +120,10 @@ const addTask = (Data) => {
 			addListinputWrap.setAttribute('style', 'display: none')
 		}
 
-		let priorityStatus = null;
-		let prevNode = null;
-		const priorityBtns = document.querySelectorAll('.piority-btn')
-		priorityBtns.forEach( (value, key) => {
-			priorityBtns[key].addEventListener('click', (e) => {
-
-				if (prevNode && prevNode !== priorityBtns[key]) {
-					if (prevNode.classList.contains('checked') === true) {
-						prevNode.classList.remove('checked');
-					}
-				}
-				
-				if (priorityBtns[key].classList.contains('checked') === true) {
-					priorityBtns[key].classList.remove('checked');
-				} else {
-					priorityBtns[key].classList.add('checked')
-				}
-
-				if (priorityBtns[key].classList.contains('checked')) {
-					if (priorityBtns[key].classList.contains('important')) {
-						priorityStatus = 'important'
-					} else if (priorityBtns[key].classList.contains('high')) {
-						priorityStatus = 'high'
-					} else if (priorityBtns[key].classList.contains('compulsory')) {
-						priorityStatus = 'compulsory'
-					}
-				}
-
-				prevNode = priorityBtns[key]
-			})
-		})
+		priority()
 
 		// submit a list to database
-		submitBtn.addEventListener('click', (e) => {
+		submitBtn.addEventListener('click', async (e) => {
 			e.preventDefault()
 			const category = addList.dataset.category
 			const listValue = getListInput.value
@@ -124,13 +131,13 @@ const addTask = (Data) => {
 			const listId = key.toLowerCase() + '_' + Math.random().toString(36).slice(2)
 
 			if (listValue) {
-				Data.set(listId, { 
+				await Data.set(listId, { 
 					listKey: listId, 
 					listName: listValue, 
 					done: false, 
 					notDone: false, 
 					catId: category,
-					priority: priorityStatus
+					priority: piorityWrap.getAttribute('data-priorityStatus')
 				})
 			
 				getListInput.value = ''
