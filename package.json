@@ -1,7 +1,7 @@
 {
   "name": "std",
   "productName": "STD",
-  "version": "0.1.0",
+  "version": "0.0.9",
   "author": "Keramot UL Islam <keramotul.islam@gmail.com>",
   "description": "A ToDo and Note taking Desktop App build with Electron.",
   "copyright": "Copyright © 2020 Keramot UL Islam",
@@ -42,7 +42,7 @@
     "electron-store": "^5.1.1"
   },
   "devDependencies": {
-    "electron": "^9.3.1",
-    "electron-builder": "^22.7.0"
+    "electron": "^13.1.2",
+    "electron-builder": "^22.11.7"
   }
 }
