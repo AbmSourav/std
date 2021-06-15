@@ -259,6 +259,64 @@ input {
     outline: none;
 }
 
+.piority-wrap {
+	display: flex;
+	margin-top: 25px;
+}
+.piority-title {
+    margin-right: 20px;
+    color: #949494;
+}
+.piority-btn {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+    width: 20px;
+    height: 20px;
+    border: none;
+    border-radius: 50%;
+	cursor: pointer;
+	position: relative;
+	outline: none;
+	margin-right: 15px;
+}
+.piority-btn.important {
+	background-color: #ff0000;
+}
+.piority-btn.high {
+	background-color: #ff7700;
+}
+.piority-btn.compulsory {
+	background-color: #ffc400;
+}
+
+.piority-btn.checked:before {
+    content: '';
+    width: 10px;
+    height: 10px;
+    background-color: #ffffff;
+    position: absolute;
+    border-radius: 50%;
+}
+
+.submit-wrap {
+    display: flex;
+    justify-content: flex-end;
+}
+.add-task-submit {
+    padding: 6px 12px;
+    border: none;
+    cursor: pointer;
+    background-color: rgba(30, 44, 212, 0.55);
+	box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.4);
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 500;
+}
+.add-task-submit:hover {
+	background-color: rgba(30, 44, 212, 0.65);
+}
+
 /* list item */
 .lists-wrap {
     padding: 20px 15px 0;
@@ -268,9 +326,20 @@ input {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     position: relative;
+	border-radius: 5px;
 }
+.lists-wrap li.important {
+    background-image: linear-gradient(to right, rgba(255, 0, 0, 0.4), #ffffff);
+}
+.lists-wrap li.high {
+    background-image: linear-gradient(to right, rgba(255, 118, 0, 0.55), #ffffff);
+}
+.lists-wrap li.compulsory {
+	background-image: linear-gradient(to right, rgba(255, 196, 0, 0.5), #ffffff);
+}
+
 .lists-wrap li .list-item {
     display: block;
     position: relative;
@@ -280,17 +349,11 @@ input {
     text-decoration: none;
     color: #525252;
 }
-.lists-wrap .done-emoji {
-    font-size: 20px;
+
+.list-option > span {
+	font-size: 20px;
     padding: 0 5px;
-    top: 7px;
-    right: 26%;
-}
-.lists-wrap .notdone-emoji {
-    font-size: 20px;
-    padding: 0 5px;
-    top: 7px;
-    right: 26%;
+	transform: scale(1.1);
 }
 .done-emoji img, 
 .notdone-emoji img {
@@ -299,7 +362,6 @@ input {
 }
 .lists-wrap li:hover {
     box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.4);
-    border-radius: 5px;
 }
 
 .list-option {

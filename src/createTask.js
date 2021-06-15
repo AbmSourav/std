@@ -12,7 +12,9 @@ const createTask = (catItemKey, data) => {
 			const listDelete = `<a class="list-delete" href="#" data-listkey="${data[key].listKey}"><img src="./app/assets/icons/close.svg"></a>`
 			
 			const listOptions = `<div class="list-option">${listDone} ${listNotDone} ${listEdit} ${listDelete} ${doneEmoji} ${notDoneEmoji}</div>`
-			lists += `<li data-catid='${data[key].catId}'>${listname} ${listOptions}</li>`
+			
+			const className = data[key].hasOwnProperty('priority') ? data[key].priority : ""
+			lists += `<li class='${className}' data-catid='${data[key].catId}'>${listname} ${listOptions}</li>`
 		}
 	}
 	return lists

@@ -1,3 +1,5 @@
+const { createHTMLElement } = require("./helper")
+
 const createNodes = () => {
 	const appNode = document.getElementById('app')
 
@@ -17,9 +19,11 @@ const createNodes = () => {
 
 	const listWrapper = document.querySelector('.list-wrapper')
 
-	const brand = document.createElement("div")
-	brand.setAttribute("class", 'brand')
-	brand.setAttribute("style", 'display: block')
+	const brand = createHTMLElement({
+		element: "div",
+		className: "brand",
+		attr: {name: 'style', value: 'display: block'}
+	})
 
 	const brandDetail = `<div class="brand-detail">Developerd by <span>Keramot UL Islam</spna></span>`
 	const brandName = `<h2>STD</h2>`
@@ -27,8 +31,10 @@ const createNodes = () => {
 	listWrapper.appendChild(brand)
 
 
-	const addUL = document.createElement("ul")
-	addUL.setAttribute("class", "lists-wrap")
+	const addUL = createHTMLElement({
+		element: "ul",
+		className: "lists-wrap",
+	})
 	listWrapper.appendChild(addUL)
 	const ul = document.querySelector(".lists-wrap")
 
@@ -38,16 +44,23 @@ const createNodes = () => {
 
 
 	// add a list input
-	const addListWrap = document.createElement("div")
-	addListWrap.setAttribute("class", 'add-list-wrap')
-	addListWrap.setAttribute("style", 'display: none')
+	const addListWrap = createHTMLElement({
+		element: "div",
+		className: "add-list-wrap",
+		attr: {name: 'style', value: 'display: none'}
+	})
 	listWrapper.appendChild(addListWrap)
 
-	const addListBtn = document.createElement("a")
-	addListBtn.setAttribute("class", 'add-list-btn')
-	addListBtn.setAttribute("href", '#')
-	const addListIcon = document.createElement("img")
-	addListIcon.setAttribute("src", './app/assets/icons/add.svg')
+	const addListBtn = createHTMLElement({
+		element: "a",
+		className: "add-list-btn",
+		attr: {name: 'href', value: '#'}
+	})
+
+	const addListIcon = createHTMLElement({
+		element: "img",
+		attr: {name: 'src', value: './app/assets/icons/add.svg'}
+	})
 
 	addListBtn.appendChild(addListIcon)
 	addListWrap.appendChild(addListBtn)
