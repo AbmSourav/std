@@ -13,7 +13,9 @@ function createAboutWindow() {
         resizable: false,
         frame: false,
         webPreferences: {
-            nodeIntegration: true,
+			nodeIntegration: true,
+			contextIsolation: false,
+			enableRemoteModule: true
         }
     })
 
